@@ -58,6 +58,16 @@ class Player:
             
             # Crear balas según el tipo de arma
             new_bullets = self.weapon.fire(self.x, self.y, angle)
+            
+            # Reproducir sonido de disparo según el tipo de arma
+            if new_bullets and hasattr(self.game, 'sound_manager'):
+                if self.weapon.name == "Pistola":
+                    self.game.sound_manager.play_sound('pistol')
+                elif self.weapon.name == "Metralleta":
+                    self.game.sound_manager.play_sound('machinegun')
+                elif self.weapon.name == "Lanzallamas":
+                    self.game.sound_manager.play_sound('flamethrower')
+            
             self.bullets.extend(new_bullets)
     
     def update_bullets(self):

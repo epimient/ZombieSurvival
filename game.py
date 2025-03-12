@@ -5,6 +5,7 @@ from zombie import Zombie
 from tent import Tent
 from weapon import Pistol, MachineGun, Flamethrower
 from settings import *
+from sound import SoundManager
 
 class Game:
     def __init__(self):
@@ -13,6 +14,10 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.game_over = False
+        
+        # Inicializar el gestor de sonidos
+        self.sound_manager = SoundManager()
+        self.sound_manager.start_background_music()
         
         # Creación de objetos del juego
         self.player = Player(WIDTH // 2, HEIGHT // 2, self)
@@ -64,6 +69,9 @@ class Game:
             # Actualizar jugador
             self.player.update()
             
+            # Reproducir sonidos de zombies ambientales basados en cuántos hay
+            self.sound_manager.play_zombie_ambient(len(self.zombies))
+            
             # Actualizar zombies
             for zombie in self.zombies[:]:
                 zombie.update()
@@ -73,13 +81,21 @@ class Game:
                     self.player.health -= 1
                     if self.player.health <= 0:
                         self.game_over = True
+                        self.sound_manager.play_sound('game_over')
+                    else:
+                        # Sonido de daño al jugador (limitado para no reproducir demasiados)
+                        if pygame.time.get_ticks() % 30 == 0:
+                            self.sound_manager.play_sound('player_hurt')
                 
                 # Verificar colisión con la tienda
                 if zombie.rect.colliderect(self.tent.rect):
                     self.tent.health -= 1
                     self.zombies.remove(zombie)
+                    # Sonido de daño a la tienda
+                    self.sound_manager.play_sound('tent_damage')
                     if self.tent.health <= 0:
                         self.game_over = True
+                        self.sound_manager.play_sound('game_over')
                 
                 # Verificar si el zombie está muerto
                 if zombie.health <= 0:
@@ -123,6 +139,9 @@ class Game:
             self.zombies_in_wave = 5 + (self.wave * 2)
             self.zombies_spawned = 0
             self.zombie_spawn_delay = max(500, 2000 - (self.wave * 100))  # Reducir el tiempo de spawn
+            
+            # Sonido de nueva oleada
+            self.sound_manager.play_sound('new_wave')
     
     def draw(self):
         # Dibujar fondo
