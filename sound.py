@@ -4,6 +4,7 @@ import os
 class SoundManager:
     def __init__(self):
         # Asegurarse que el mixer de pygame está inicializado
+        pygame.mixer.pre_init(44100, -16, 2, 512)
         pygame.mixer.init()
         
         # Directorio para los sonidos (crea la carpeta 'sounds' en el mismo directorio que tu juego)
@@ -11,7 +12,7 @@ class SoundManager:
         
         # Volumen predeterminado
         self.sfx_volume = 0.5
-        self.music_volume = 0.3
+        self.music_volume = 0.5
         
         # Diccionario para almacenar todos los efectos de sonido
         self.sounds = {}
