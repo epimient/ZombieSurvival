@@ -63,7 +63,6 @@ Actualmente, el juego utiliza formas básicas (rectángulos de colores) para rep
 
 Para personalizar el juego, puedes:
 - Añadir sprites en lugar de rectángulos
-- Incorporar efectos de sonido y música
 - Añadir nuevas armas o tipos de zombies
 - Implementar power-ups o mejoras para el jugador
 
