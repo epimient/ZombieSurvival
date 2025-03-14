@@ -36,6 +36,7 @@ class SoundManager:
         self.sounds['tent_damage'] = self.load_sound('tent_damage.wav')
         self.sounds['game_over'] = self.load_sound('game_over.wav')
         self.sounds['new_wave'] = self.load_sound('new_wave.wav')
+        self.sounds['background_music'] = self.load_sound('background_music.mp3')
         
         # Música de fondo (no se almacena en el diccionario)
         self.background_music = os.path.join(self.sound_dir, 'background_music.mp3')
